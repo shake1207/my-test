@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Loading from '../Loading';
 
@@ -7,7 +6,7 @@ const DetailStyled = styled.div`
     li {
       display: flex;
       align-items: center;
-      justify-content:space-between;
+      justify-content: space-between;
       .rightBox {
         display: flex;
         align-items: center;
@@ -33,7 +32,7 @@ const DetailStyled = styled.div`
       align-items: center;
       justify-content: flex-start;
       label {
-        max-width:100px;
+        max-width: 100px;
         width: 100%;
         margin-right: 10px;
         color: #666;
@@ -41,21 +40,21 @@ const DetailStyled = styled.div`
     }
     .clouds {
       padding: 5px 0;
-      font-size: 24px;
       font-weight: bold;
+      font-size: 24px;
     }
   }
   ul {
-    margin:0;
+    margin: 0;
     padding: 0;
     li {
+      padding: 5px 0;
       list-style: none;
-      padding:5px 0;
     }
   }
-`
+`;
 
-function Detail({children, className = 'detail', isSuccess = true, isLoading = false}) {
+const Detail = ({children, className = 'detail', isSuccess = true, isLoading = false}) => {
 
   if(isLoading) return (<Loading />)
 

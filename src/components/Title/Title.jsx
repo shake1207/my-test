@@ -1,22 +1,19 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const TitleStyle = styled.div`
   padding: 10px 0;
   border-bottom: 1px solid #000;
-  text-align:left;
+  text-align: left;
   h2 {
-    font-size: 20px;
     margin: 0;
+    font-size: 20px;
   }
-`
+`;
 
-function Title({titleName = ''}) {
-  return (
-    <TitleStyle>
-      <h2>{titleName}</h2>
-    </TitleStyle>
-  );
-}
+const Title = ({titleName = ''}) => (
+  <TitleStyle>
+    <h2>{titleName}</h2>
+  </TitleStyle>
+);
 
 export default Title;
