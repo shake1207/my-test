@@ -9,17 +9,16 @@ import Error from './components/Error';
 import './App.css'
 
 const ContainerStyle = styled.main`
-
   max-width: 80%;
-  min-height: 100vh;
+  min-height:50vh;
   width: 100%;
   height: 100%;
   margin: auto;
+  padding: 15px 25px;
   border-radius: 25px;
   border: 1px solid #000;
-  padding: 15px 25px;
-  background-color: #fff;
   color:#000;
+  background-color: #fff;
   .wrap {
     width: 100%;
     height: 100%;
@@ -29,7 +28,7 @@ const ContainerStyle = styled.main`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    font-weight:500;
+    font-weight: 500;
   }
   .btnZone {
     display: flex;
@@ -66,8 +65,8 @@ function App() {
             id: uuid(),
           }
           setHistorySearchData(prev => (
-            [...prev, {...historyData}]
-            ));
+            [{...historyData}, ...prev]
+          ));
         }
       })
       .catch((error) => setIsError(error))
@@ -100,7 +99,17 @@ function App() {
     },
   ];
 
-  function getApiData(item) {
+  function handleDate(){
+    const date = new Date();
+    const Y = date.getFullYear() + '-';
+    const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    const D = date.getDate() + ' ';
+    const localeTimeString = date.toLocaleTimeString();
+
+    return `${Y}${M}${D} ${localeTimeString}`
+  }
+
+  function handleHistorySearch(item) {
     fetchData(item.name, item.country);
   }
 
@@ -139,20 +148,20 @@ function App() {
               <div className="clouds">{data?.weather[0].main}</div>
               <ul>
                 <li>
-                  <label htmlFor="">Description</label>
+                  <label>Description</label>
                   <div>{data?.weather[0].description}</div>
                 </li>
                 <li>
-                  <label htmlFor="">Temperature</label>
+                  <label>Temperature</label>
                   <div>{`${data?.main.temp_min}℃ ~ ${data?.main.temp_max}℃`}</div>
                 </li>
                 <li>
-                  <label htmlFor="">Humidity</label>
+                  <label>Humidity</label>
                   <div>{data?.main.humidity}</div>
                 </li>
                 <li>
-                  <label htmlFor="">Time</label>
-                  <div>{data?.main.humidity}</div>
+                  <label>Time</label>
+                  <div>{handleDate()}</div>
                 </li>
               </ul>
             </>
@@ -169,13 +178,14 @@ function App() {
                     {index + 1}. {item.name}, {item.country}
                     <div className="rightBox">
                       <time dateTime={item.time}>{item.time}</time>
-                      <span onClick={()=> getApiData(item)}>search</span>
+                      <span onClick={()=> handleHistorySearch(item)}>search</span>
                       <span onClick={()=> handleDelete(item.id)}>delete</span>
                     </div>
                     
                   </li>
                 ))}
-              </ul> ) : (<div>No Record</div>)}
+              </ul> 
+            ) : (<div>No Record</div>)}
           </Detail>
       </div>
     </ContainerStyle>
