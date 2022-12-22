@@ -29,6 +29,9 @@ const ContainerStyle = styled.main`
     align-items: center;
     justify-content: flex-start;
     font-weight: 500;
+    @media(max-width: 880px) {
+      flex-direction: column;
+    }
   }
   .btnZone {
     display: flex;

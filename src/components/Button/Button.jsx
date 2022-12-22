@@ -6,6 +6,7 @@ const ButtonStyled = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  margin: auto;
   border-radius: 5px;
   border:1px solid #000;
   cursor: pointer;
@@ -14,6 +15,10 @@ const ButtonStyled = styled.div`
   }
   &:active {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
+  @media( max-width:880px){
+    margin-top: 10px;
+    min-width: 100px;
   }
 `;
 

@@ -13,6 +13,14 @@ const InputBoxStyled = styled.div`
     padding: 5px 0;
     margin-left: 5px;
   }
+  @media( max-width:880px){
+    max-width: 100%;
+    margin: 5px 0; 
+    label {
+      max-width: 80px;
+      width: 100%;
+    }
+  }
 `;
 
 const InputBox = forwardRef(({
