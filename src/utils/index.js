@@ -5,8 +5,8 @@ export const useFetchApi = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError,setIsError] = useState(false);
 
-  const fetchUsers = async () => {
-    const api = 'https://api.openweathermap.org/data/2.5/weather?q=japan&appid=db5e868c80035e683ce2af4d26f7ae2c';
+  const fetchData = async () => {
+    const api = 'https://api.openweathermap.org/data/2.5/weather?q=JOHOR&appid=db5e868c80035e683ce2af4d26f7ae2c';
 
     await fetch(api, { method: 'GET' })
     .then((res) => res.json())
@@ -17,7 +17,7 @@ export const useFetchApi = () => {
 
 
   useEffect(() => {
-    fetchUsers();
+    fetchData();
   }, []);
 
   return { data, isLoading, isError}
