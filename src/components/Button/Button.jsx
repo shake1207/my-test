@@ -9,14 +9,18 @@ const ButtonStyled = styled.div`
   justify-content: center;
   border-radius:5px;
   border:1px solid #000;
+  cursor: pointer;
   &:not(:first-child){
     margin-left: 10px;
+  }
+  &:active {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   }
 `
 
 const Button = ({name = 'button', onClickFc = () => {}}) => {
   return (
-    <div className="button" onClick={onClickFc}>{name}</div>
+    <ButtonStyled className="button" onClick={onClickFc}>{name}</ButtonStyled>
   );
 }
 
