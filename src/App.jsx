@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { useFetchApi } from './utils';
 import Loading from './components/Loading';
+import Title from './components/Title';
+import InputBox from './components/InputBox';
+import Button from './components/Button';
 import './App.css'
 
 const ContainerStyle = styled.main`
@@ -15,15 +18,8 @@ const ContainerStyle = styled.main`
   border-radius: 25px;
   border: 1px solid #000;
   padding: 15px 25px;
-  header {
-    padding: 10px 0;
-    border-bottom: 1px solid #000;
-    text-align:left;
-    h1 {
-      font-size: 3rem;
-      margin: 0;
-    }
-  }
+  background-color: #fff;
+  color:#000;
   .wrap {
     width: 100%;
     height: 100%;
@@ -31,65 +27,125 @@ const ContainerStyle = styled.main`
   .searchBar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    .inputBox {
-      width: 100%;
-      display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    }
+    justify-content: flex-start;
+    font-weight:500;
   }
   .btnZone {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100px;
+    max-width: 20%;
     width: 100%;
-    flex: 1;
-    button {
-      width: 100px;
-      height: 40px;
+  }
+  ul {
+    margin:0;
+    padding: 0;
+    li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content:space-between;
+      .rightBox {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        span {
+          margin-left: 10px;
+        }
+      }
     }
-
   }
 `
 
 function App() {
+  const [historySearchData, setHistorySearchData] = useState([]);
+  const cityRef = useRef(null);
+  const countryRef = useRef(null);
   const {data, isLoading, isError} = useFetchApi();
-    console.log(data, isLoading, isError)
 
-    function handleInputClear() {
+  function handleInputClear() {
+    cityRef.current.value = '';
+    countryRef.current.value= '';
+  }
 
+  function handleSearch() {
+    const history = {
+      country: countryRef?.current.value,
+      name: cityRef?.current.value,
+      time: new Date().toLocaleTimeString(),
     }
-
-    function handleSearch() {
-
+    setHistorySearchData(prev => ([...prev, {...history}]))
+  }
+  const fakeData = [
+    {
+      country: 'TW',
+      name: 'Taipei',
+      time: '03:15:02 PM'
+    },
+    {
+      country: 'JP',
+      name: 'Osaka',
+      time: '03:15:02 PM'
     }
+  ];
 
+  const inputs = [
+    {
+      labelName:'City',
+      ref: cityRef,
+    },
+    {
+      labelName: 'Country',
+      ref: countryRef,
+    }
+  ];
 
+  const btns = [
+    {
+      name: 'Search',
+      onClickFc:() => handleSearch(),
+    },
+    {
+      name: 'Clear',
+      onClickFc:() => handleInputClear(),
+    },
+  ];
+  console.log(new Date().toLocaleTimeString())
 
   if(isLoading) return (<Loading />)
   if(isError) return  <h1>error...</h1>
+  console.log(historySearchData)
   return (
     <ContainerStyle>
-      <header>
-        <h1>Todays Weather</h1>
-      </header>
+      <Title titleName="Today's Weather" />
       <div className="wrap">
         <div className="searchBar">
-          <div className="inputBox">
-            <label>City:</label>
-            <input type="text" />
-          </div>
-          <div className="inputBox">
-            <label>Country:</label>
-            <input type="text" />
-          </div>
+          {inputs.map(({labelName, ref}) => (
+            <InputBox key={labelName} labelName={labelName} ref={ref} />
+          ))}
           <div className="btnZone">
-            <div type="button" className="button" onClick={handleSearch}>Search</div><div type="button" className="button" onClick={handleInputClear}>Clear</div>
+            {btns.map(({name, onClickFc}) => (
+              <Button key={name} name={name} onClickFc={onClickFc} />
+            ))}
           </div>
         </div>
+      <Title titleName="Search History" />
+      {historySearchData.length ? (
+        <ul>
+        {historySearchData.map(({name, country, time}, index) => (
+          <li className="listBox">
+            {index + 1}. {name}, {country}
+            <div className="rightBox">
+              <time datetime={time}>{time}</time>
+              <span>icon search</span>
+              <span>icon delete</span>
+            </div>
+            
+          </li>
+        ))}
+      </ul>
+      ) : (<div>No Record</div>)}
+      
       </div>
 
       {JSON.stringify(data)}
