@@ -1,1 +1,1 @@
-url: https://my-test-react.netlify.app/
+url: https://my-todays-weather.netlify.app/
